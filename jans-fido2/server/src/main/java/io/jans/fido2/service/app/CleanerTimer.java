@@ -108,8 +108,8 @@ public class CleanerTimer {
 	private boolean isStartProcess() {
 		int interval = appConfiguration.getCleanServiceInterval();
 		if (interval < 0) {
-			log.info("Cleaner Timer is disabled.");
-			log.warn("Cleaner Timer Interval (cleanServiceInterval in oxauth configuration) is negative which turns OFF internal clean up by the server. Please set it to positive value if you wish internal clean up timer run.");
+//			log.info("Cleaner Timer is disabled.");
+//			log.warn("Cleaner Timer Interval (cleanServiceInterval in oxauth configuration) is negative which turns OFF internal clean up by the server. Please set it to positive value if you wish internal clean up timer run.");
 			return false;
 		}
 
@@ -123,7 +123,7 @@ public class CleanerTimer {
     public void processImpl() {
         try {
             if (!isStartProcess()) {
-                log.trace("Starting conditions aren't reached");
+//                log.trace("Starting conditions aren't reached");
                 return;
             }
 
@@ -142,28 +142,28 @@ public class CleanerTimer {
 
                 processedBaseDns.add(processedKey);
 
-                if (log.isDebugEnabled())
-                    log.debug("Start clean up for baseDn: {}, class: {}", baseDn.getValue(), baseDn.getValue());
+//                if (log.isDebugEnabled())
+//                    log.debug("Start clean up for baseDn: {}, class: {}", baseDn.getValue(), baseDn.getValue());
 
                 final Stopwatch started = Stopwatch.createStarted();
 
                 int removed = cleanup(baseDn, now, chunkSize);
 
-                if (log.isDebugEnabled())
-                    log.debug("Finished clean up for baseDn: {}, takes: {}ms, removed items: {}", baseDn, started.elapsed(TimeUnit.MILLISECONDS), removed);
+//                if (log.isDebugEnabled())
+//                    log.debug("Finished clean up for baseDn: {}, takes: {}ms, removed items: {}", baseDn, started.elapsed(TimeUnit.MILLISECONDS), removed);
             }
 
             // Process sub-branches
             String baseDn = staticConfiguration.getBaseDn().getPeople();
-            if (log.isDebugEnabled())
-                log.debug("Start clean up for baseDn: {}", baseDn);
+//            if (log.isDebugEnabled())
+//                log.debug("Start clean up for baseDn: {}", baseDn);
 
             final Stopwatch started = Stopwatch.createStarted();
 
             int removed = cleanupBranches(baseDn, now, chunkSize);
 
-            if (log.isDebugEnabled())
-                log.debug("Finished clean up for baseDn: {}, takes: {}ms, removed items: {}", baseDn, started.elapsed(TimeUnit.MILLISECONDS), removed);
+//            if (log.isDebugEnabled())
+//                log.debug("Finished clean up for baseDn: {}, takes: {}ms, removed items: {}", baseDn, started.elapsed(TimeUnit.MILLISECONDS), removed);
 
 			this.lastFinishedTime = System.currentTimeMillis();
         } catch (Exception e) {
@@ -194,7 +194,7 @@ public class CleanerTimer {
                     Filter.createLessOrEqualFilter("exp", entryManager.encodeTime(baseDn.getKey(), now)));
 
             int removedCount = entryManager.remove(baseDn.getKey(), baseDn.getValue(), filter, batchSize);
-            log.trace("Removed {} entries from {}", removedCount, baseDn.getKey());
+//            log.trace("Removed {} entries from {}", removedCount, baseDn.getKey());
             return removedCount;
         } catch (Exception e) {
             log.error("Failed to perform clean up.", e);
@@ -218,7 +218,7 @@ public class CleanerTimer {
 							Filter.createEqualityFilter("hasSubordinates", "FALSE")));
 	
 	        int removedCount = entryManager.remove(branchDn, SimpleBranch.class, filter, batchSize);
-	        log.trace("Removed {} entries from {}", removedCount, branchDn);
+//	        log.trace("Removed {} entries from {}", removedCount, branchDn);
 	        return removedCount;
 	    } catch (Exception e) {
 	        log.error("Failed to perform clean up.", e);
