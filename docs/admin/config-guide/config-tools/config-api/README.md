@@ -31,5 +31,5 @@ Config API endpoints are OAuth 2.0 protected. It supports simple bearer and JWT 
 Learn more API endpoint protection using [here](authorization.md).
 
 ## Monitoring
-Config API module monitoring related details [here](authorization.md).
+Config API module monitoring related details [here](monitoring.md).
 
